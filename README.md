@@ -1,5 +1,5 @@
 # Bio-Inspired Algorithms
-Curso Algoritmos Bioinspirados 2026A
+Course Algoritmos Bioinspirados 2026A
 
 This repository contains Python implementations of three classic bio-inspired optimisation algorithms, each in its own self-contained directory.
 
@@ -10,13 +10,13 @@ This repository contains Python implementations of three classic bio-inspired op
 ```
 bio-inspired_algorithms/
 ├── genetic_algorithm/
-│   ├── genetic_algorithm.py   # GA implementation
+│   ├── ___.py   # GA implementation
 │   └── README.md
 ├── ant_colony_optimization/
-│   ├── ant_colony_optimization.py   # ACO implementation
+│   ├── ____.py   # ACO implementation
 │   └── README.md
 └── particle_swarm_optimization/
-    ├── particle_swarm_optimization.py   # PSO implementation
+    ├── ________.py   # PSO implementation
     └── README.md
 ```
 
@@ -24,14 +24,14 @@ bio-inspired_algorithms/
 
 ## Algorithms
 
-### 1. [Genetic Algorithm (GA)](genetic_algorithm/)
+### 1. [Simple Genetic Algorithm (SGA)](genetic_algorithm/)
 Mimics natural selection to evolve a population of binary-encoded solutions toward an optimal value. Demonstrates **selection**, **crossover**, and **mutation** operators.
 
 **Problem solved:** Maximise f(x) = x²
 
 ---
 
-### 2. [Ant Colony Optimization (ACO)](ant_colony_optimization/)
+### 2. [Ant Colony Optimization (ACO)](ant_colony_optimization/string_evolution/)
 Simulates the pheromone-guided foraging of ants to discover short paths through a graph. Demonstrates **pheromone trails**, **probabilistic path selection**, and **evaporation**.
 
 **Problem solved:** Travelling Salesman Problem (TSP)
@@ -53,11 +53,11 @@ Models the collective movement of a swarm, where each particle balances explorat
 
 ```bash
 cd genetic_algorithm
-python genetic_algorithm.py
+python _______.py
 
 cd ant_colony_optimization
-python ant_colony_optimization.py
+python ________.py
 
 cd particle_swarm_optimization
-python particle_swarm_optimization.py
+python _______-.py
 ```
