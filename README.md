@@ -10,13 +10,13 @@ This repository contains Python implementations of three classic bio-inspired op
 ```
 bio-inspired_algorithms/
 ├── genetic_algorithm/
-│   ├── ___.py   # GA implementation
+│   ├── sga_es.py   # GA implementation
 │   └── README.md
 ├── ant_colony_optimization/
-│   ├── ____.py   # ACO implementation
+│   ├── ant_colony_optimization.py   # ACO implementation
 │   └── README.md
 └── particle_swarm_optimization/
-    ├── ________.py   # PSO implementation
+    ├── pso.py   # PSO implementation
     └── README.md
 ```
 
@@ -24,14 +24,14 @@ bio-inspired_algorithms/
 
 ## Algorithms
 
-### 1. [Simple Genetic Algorithm (SGA)](genetic_algorithm/)
+### 1. [Simple Genetic Algorithm (SGA)](genetic_algorithm/string_evolution)
 Mimics natural selection to evolve a population of binary-encoded solutions toward an optimal value. Demonstrates **selection**, **crossover**, and **mutation** operators.
 
-**Problem solved:** Maximise f(x) = x²
+**Problem solved:** Maximise the function
 
 ---
 
-### 2. [Ant Colony Optimization (ACO)](ant_colony_optimization/string_evolution/)
+### 2. [Ant Colony Optimization (ACO)](ant_colony_optimization/)
 Simulates the pheromone-guided foraging of ants to discover short paths through a graph. Demonstrates **pheromone trails**, **probabilistic path selection**, and **evaporation**.
 
 **Problem solved:** Travelling Salesman Problem (TSP)
@@ -41,23 +41,23 @@ Simulates the pheromone-guided foraging of ants to discover short paths through 
 ### 3. [Particle Swarm Optimization (PSO)](particle_swarm_optimization/)
 Models the collective movement of a swarm, where each particle balances exploration with attraction to the best known positions. Demonstrates **velocity update**, **inertia**, and **cognitive/social** learning.
 
-**Problem solved:** Minimise the Sphere function f(**x**) = Σ xᵢ²
+**Problem solved:** Minimise the function
 
 ---
 
 ## Requirements
 
-- Python 3.x (no external libraries required — uses only the standard library)
+- Python 3.x 
 
 ## Running an algorithm
 
 ```bash
 cd genetic_algorithm
-python _______.py
+python sga_es.py
 
 cd ant_colony_optimization
-python ________.py
+python ant_colony_optimization.py
 
 cd particle_swarm_optimization
-python _______-.py
+python pso.py
 ```
