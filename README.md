@@ -1,7 +1,7 @@
 # Bio-Inspired Algorithms
 Course Algoritmos Bioinspirados 2026A
 
-This repository contains Python implementations of three classic bio-inspired optimisation algorithms, each in its own self-contained directory.
+This repository contains Python implementations of three classic bio-inspired optimization algorithms, each in its own self-contained directory.
 
 ---
 
