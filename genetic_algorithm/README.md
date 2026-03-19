@@ -1,49 +1,119 @@
-# Genetic Algorithm (GA)
+# Simple Genetic Algorithm (SGA) — Evolving a Target String
 
-A bio-inspired search heuristic that mimics the process of **natural selection**. Candidate solutions (individuals) evolve over successive generations through selection, crossover, and mutation until an optimal (or near-optimal) solution emerges.
+This folder contains a **Simple Genetic Algorithm** implementation (`sga_es.py`) that evolves a population of strings until it matches a **target phrase**.
+
+Unlike some classic GA examples (binary chromosomes + crossover), this version focuses on:
+- **Fitness by character matching**
+- **Elitism**
+- **Mutation-only reproduction** (no crossover)
+
+---
 
 ## Problem
 
-Maximize **f(x) = x²**, where *x* is a non-negative integer encoded as a binary chromosome of `NUM_BITS` bits.
+Evolve a random string into the target:
 
-## How it works
+- `TARGET = "HOLA MUNDO"`
 
-| Step | Description |
-|------|-------------|
-| **Initialisation** | A random population of binary chromosomes is created. |
-| **Fitness evaluation** | Each chromosome is decoded to an integer *x* and its fitness f(x) = x² is computed. |
-| **Selection** | Parents are chosen via roulette-wheel (fitness-proportionate) selection. |
-| **Crossover** | Two parents exchange genetic material at a random cut point to produce two offspring. |
-| **Mutation** | Each gene is flipped with a small probability `MUTATION_RATE`. |
-| **Replacement** | The offspring form the next generation and the cycle repeats. |
+Each individual is a string of the same length as `TARGET`, built from the gene set:
 
-## Key Parameters
+- `GENES = A–Z` plus space (`" "`)
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `POPULATION_SIZE` | 10 | Number of individuals per generation |
-| `NUM_BITS` | 5 | Chromosome length (x ∈ [0, 31]) |
-| `NUM_GENERATIONS` | 20 | Number of evolutionary cycles |
-| `CROSSOVER_RATE` | 0.8 | Probability that crossover occurs |
-| `MUTATION_RATE` | 0.01 | Per-gene mutation probability |
+---
+
+## Representation
+
+- **Individual (chromosome):** a string, e.g. `"HQZA MUNXO"`
+- **Gene:** a single character (letter or space)
+- **Population:** list of individuals (strings)
+
+---
+
+## Fitness function
+
+The fitness is the **number of characters that match the target in the correct position**.
+
+For an individual `s`:
+
+- `fitness(s) = count of i where s[i] == TARGET[i]`
+
+Maximum fitness is `len(TARGET)`.
+
+---
+
+## Genetic operators
+
+### Selection (parent choice)
+After sorting the population by fitness (descending), a parent is chosen randomly from the **top 50** individuals:
+
+- `parent = random.choice(population[:50])`
+
+### Mutation
+Each character has a small probability of being replaced by a random gene:
+
+- probability = `MUTATION_RATE`
+- replacement comes from `GENES`
+
+### Elitism
+The best `ELITE_SIZE` individuals are copied directly into the next generation:
+
+- `next_generation = population[:ELITE_SIZE]`
+
+The rest of the next generation is filled with mutated children.
+
+---
+
+## Key parameters (from `sga_es.py`)
+
+| Parameter | Value | Meaning |
+|----------|-------|---------|
+| `TARGET` | `"HOLA MUNDO"` | Target phrase to evolve |
+| `POPULATION_SIZE` | `200` | Individuals per generation |
+| `MUTATION_RATE` | `0.01` | Per-character mutation probability |
+| `ELITE_SIZE` | `20` | Number of best individuals preserved |
+| Parent pool | Top `50` | Parents sampled from best 50 individuals |
+| `GENES` | `A-Z` + space | Allowed characters |
+
+---
+
+## Termination condition
+
+The algorithm stops when the best individual reaches perfect fitness:
+
+- `fitness(best) == len(TARGET)`
+
+At that point, the best evolved string equals the target.
+
+---
 
 ## How to run
 
+From the repository root:
+
 ```bash
-python genetic_algorithm.py
+python genetic_algorithm/sga_es.py
 ```
 
-## Example output
+---
+
+## Example output (format)
+
+Each generation prints the best current individual and its fitness:
 
 ```
-=============================================
-       Genetic Algorithm — f(x) = x²
-=============================================
-Generation  1 | Best x = 28 | f(x) =  784 | Chromosome: 11100
-Generation  2 | Best x = 30 | f(x) =  900 | Chromosome: 11110
+Generation 1:  XQTA MUNDP | Fitness: 2
+Generation 2:  HOTA MUNDP | Fitness: 8
 ...
-Generation 20 | Best x = 31 | f(x) =  961 | Chromosome: 11111
-=============================================
-Best solution found: x = 31, f(x) = 961
-=============================================
+Generation N:  HOLA MUNDO | Fitness: 9
+
+Target string evolved successfully!
 ```
+
+*(Your generations and intermediate strings will differ due to randomness.)*
+
+---
+
+## Notes / tips
+
+- If you reduce `POPULATION_SIZE` too much, convergence may become very slow (or appear “stuck”) depending on randomness and parameter choices.
+- This implementation is intentionally simple for learning: it demonstrates how **selection pressure + elitism + mutation** can drive improvement even without crossover.
