@@ -1,52 +1,101 @@
 # Particle Swarm Optimization (PSO)
 
-A computational method inspired by the **social behaviour of bird flocking and fish schooling**. A swarm of particles explores the search space; each particle is attracted toward its own best known position and toward the best position found by the entire swarm.
+Particle Swarm Optimization is inspired by **collective behavior** (e.g., bird flocks / fish schools). A group of particles explores the search space while sharing information about the best solutions found.
 
-## Problem
+This implementation is a minimal, educational PSO in **one dimension (1D)**.
 
-Minimize the **Sphere function**: f(**x**) = Σ xᵢ², whose global minimum is **0** at the origin.
+---
 
-## How it works
+## Problem (in this code)
 
-| Step | Description |
-|------|-------------|
-| **Initialisation** | Particles are placed at random positions with random velocities within the search bounds. |
-| **Velocity update** | Each particle's velocity is adjusted using an *inertia* term, a *cognitive* term (pull toward personal best), and a *social* term (pull toward global best). |
-| **Position update** | Particles move according to their updated velocities; positions are clamped to the search bounds. |
-| **Evaluation** | Fitness is computed; personal and global bests are updated if a better position is found. |
-| **Iteration** | The process repeats until convergence or the iteration limit is reached. |
+Minimize:
 
-## Key Parameters
+- `f(x) = x^2`
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `NUM_PARTICLES` | 20 | Swarm size |
-| `NUM_DIMENSIONS` | 3 | Dimensionality of the search space |
-| `NUM_ITERATIONS` | 50 | Number of PSO cycles |
-| `BOUNDS` | (-5.12, 5.12) | Search space bounds per dimension |
-| `W` | 0.5 | Inertia weight |
-| `C1` | 1.5 | Cognitive (personal best) coefficient |
-| `C2` | 1.5 | Social (global best) coefficient |
+The global minimum is:
+
+- `x = 0` with `f(0) = 0`
+
+---
+
+## Representation
+
+Each particle has:
+- **position**: a float `x`
+- **velocity**: a float `v`
+- **personal best**: `p_best[i]` (best position particle *i* has found)
+- **global best**: `g_best` (best position found by any particle)
+
+---
+
+## Initialization
+
+- positions sampled uniformly from `[-10, 10]`
+- velocities sampled uniformly from `[-1, 1]`
+
+Personal bests start at the initial positions, and the global best is the best among them.
+
+---
+
+## Core update equations
+
+For each iteration and each particle:
+
+### Velocity update
+```
+v = w*v + c1*r1*(p_best - x) + c2*r2*(g_best - x)
+```
+
+Where:
+- `w` = inertia term
+- `c1` = cognitive coefficient (pull toward personal best)
+- `c2` = social coefficient (pull toward global best)
+- `r1`, `r2` are random numbers in `[0, 1]`
+
+### Position update
+```
+x = x + v
+```
+
+Then the objective function is evaluated, and `p_best` / `g_best` are updated if improvements are found.
+
+> Note: this script does **not** clamp positions to a bound after updating them.
+
+---
+
+## Parameters (from `pso.py`)
+
+| Parameter | Value | Meaning |
+|----------|-------|---------|
+| `num_particles` | `20` | Swarm size |
+| `num_iterations` | `50` | Number of iterations |
+| `w` | `0.5` | Inertia weight |
+| `c1` | `1.5` | Cognitive coefficient |
+| `c2` | `1.5` | Social coefficient |
+
+---
 
 ## How to run
 
+From the repository root:
+
 ```bash
-python particle_swarm_optimization.py
+python particle_swarm_optimization/pso.py
 ```
 
-## Example output
+---
+
+## Output
+
+Each iteration prints the best position found so far:
 
 ```
-=======================================================
-   Particle Swarm Optimization — Sphere Function
-=======================================================
-Iteration   1 | Best fitness: 0.523419 | Position: [0.1234, -0.4567, 0.5678]
-Iteration   2 | Best fitness: 0.312104 | Position: [0.0891, -0.2134, 0.4901]
+Iteration 1: Best = -0.5321
+Iteration 2: Best = 0.1044
 ...
-Iteration  50 | Best fitness: 0.000012 | Position: [0.001234, -0.000567, 0.002789]
-=======================================================
-Best solution found:
-  Position: [0.001234, -0.000567, 0.002789]
-  f(x)    : 0.000012
-=======================================================
+Iteration 50: Best = 0.0000
+
+Best solution found: 0.0000
 ```
+
+*(Exact results vary due to randomness.)*
